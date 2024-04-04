@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
+from django.contrib.auth import login as login_django
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
 def cadastro (request):
@@ -34,6 +36,14 @@ def login (request):
         user = authenticate(username=username, password=password)
 
         if user:
+            login_django(request, user)
             return HttpResponse("Autenticado!!!")
         else:
             return HttpResponse("Email ou senha inválidos")
+
+@login_required(login_url="/auth/login/")
+def plataforma(request):
+    if request.user.is_authenticated:
+        return render (request, "plataforma.html")
+    else:
+        return HttpResponse("Você deve estar registrado...")
