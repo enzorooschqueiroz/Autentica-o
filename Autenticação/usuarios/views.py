@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_django
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.contrib.auth import logout
 
 def cadastro (request):
     if request.method == "GET":
@@ -19,12 +20,14 @@ def cadastro (request):
         
         user = User.objects.create_user(username=username, email=email, password=password)
         user.save()
-        return HttpResponse("Usuário cadastrado com sucesso")
-
-        return HttpResponse(username)
+        
+        user = authenticate(username=username, password=password)
+        if user:
+            login_django(request, user)
+            return redirect("plataforma")
+        else:
+            return HttpResponse("Erro ao autenticar o usuário após o cadastro")
     
-    
-
 
 def login (request):
     if request.method == "GET":
@@ -37,7 +40,7 @@ def login (request):
 
         if user:
             login_django(request, user)
-            return HttpResponse("Autenticado!!!")
+            return render (request, "plataforma.html")
         else:
             return HttpResponse("Email ou senha inválidos")
 
@@ -47,3 +50,7 @@ def plataforma(request):
         return render (request, "plataforma.html")
     else:
         return HttpResponse("Você deve estar registrado...")
+    
+def logout_view(request):
+    logout(request)
+    return redirect('login') 

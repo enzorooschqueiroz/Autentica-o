@@ -1,16 +1,41 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-  <head> </head>
-  <body>
-    <form action="{% url 'login' %}" method="POST">
-      {% csrf_token %}
-
-      <input type="text" placeholder="Username..." name="username" />
-      <br />
-      <input type="password" placeholder="Password" name="password" />
-      <br />
-      <input type="submit" value="Entrar" />
-      
-    </form>
-  </body>
+    <!-- Adicionar link para o Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Opcional: você pode adicionar estilos personalizados aqui */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-4 mt-5">
+                <h2 class="text-center mb-4">Login</h2>
+                <form action="{% url 'login' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Username..." name="username" />
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="Password" name="password" />
+                    </div>
+                    <div class="form-group text-center">
+                        <input type="submit" class="btn btn-primary" value="Entrar" />
+                    </div>
+                    <div class="form-group text-center">
+                      <a href="{% url 'cadastro' %}" class="btn btn-link">Cadastre-se</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Adicionar link para o jQuery e Bootstrap JS (opcional) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
 </html>
