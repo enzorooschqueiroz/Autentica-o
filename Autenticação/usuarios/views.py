@@ -5,6 +5,11 @@ from django.contrib.auth import login as login_django
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.contrib.auth import logout
+from .models import MonteCarloContent
+import numpy as np
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
 
 def cadastro (request):
     if request.method == "GET":
@@ -44,7 +49,7 @@ def login (request):
         else:
             return HttpResponse("Email ou senha inválidos")
 
-@login_required(login_url="/auth/login/")
+@login_required(login_url="")
 def plataforma(request):
     if request.user.is_authenticated:
         return render (request, "plataforma.html")
@@ -54,3 +59,26 @@ def plataforma(request):
 def logout_view(request):
     logout(request)
     return redirect('login') 
+
+def simulacao_view(request):
+    if request.user.is_authenticated:
+        return render (request, "simulacao.html")
+    else:
+        return HttpResponse("Você deve estar registrado...")
+
+def equipe_view(request):
+    equipe_members = [
+        'Enzo Queiroz',
+        'Gabriel Barbosa',
+        'Paulo Araújo',
+        'Rafael Máximo',
+        'Rodrigo Bragagnolo'
+    ]
+    context = {
+        'equipe_members': equipe_members
+    }
+    return render(request, 'equipe.html', context)
+
+def home(request):
+    montecarlo_contents = MonteCarloContent.objects.all()
+    return render(request, 'home.html', {'montecarlo_contents': montecarlo_contents})
