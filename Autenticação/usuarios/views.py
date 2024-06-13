@@ -10,7 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
-from .forms import DuracaoForm
+from .forms import SimulacaoForm
 
 def cadastro (request):
     if request.method == "GET":
@@ -63,23 +63,22 @@ def logout_view(request):
 
 def simulacao_view(request):
     if request.method == 'POST':
-        form = DuracaoForm(request.POST)
+        form = SimulacaoForm(request.POST)
         if form.is_valid():
-            duracao_desejada = form.cleaned_data['duracao']
+            media = form.cleaned_data['media']
+            desvio_padrao = form.cleaned_data['desvio_padrao']
+            numero_simulacoes = form.cleaned_data['numero_simulacoes']
             
             # Simulação de Monte Carlo
-            sims = 10000000
-            A = np.random.uniform(1, 5, sims)
-            B = np.random.uniform(2, 6, sims)
-            duracao = A + B
+            distribuicao = np.random.normal(media, desvio_padrao, numero_simulacoes)
             
             # Criando o histograma
             plt.figure(figsize=(11, 5.5))
-            plt.hist(duracao, density=True, bins=50)
-            plt.axvline(duracao_desejada, color='r', linestyle='dashed', linewidth=1)
-            plt.xlabel('Duração')
+            plt.hist(distribuicao, bins=50, density=True, alpha=0.75)
+            plt.axvline(np.mean(distribuicao), color='r', linestyle='dashed', linewidth=1)
+            plt.xlabel('Valores')
             plt.ylabel('Densidade')
-            plt.title('Simulação de Monte Carlo para Duração')
+            plt.title('Simulação de Monte Carlo')
             plt.grid(True)
             
             # Convertendo o gráfico para imagem base64 para ser exibido no template
@@ -91,10 +90,14 @@ def simulacao_view(request):
             
             # Limpar a figura para evitar sobrecarga de memória
             plt.clf()
-
+            
+            # Renderizar o template com os dados do gráfico
             return render(request, 'simulacao.html', {'form': form, 'plot_url': plot_url})
+    
     else:
-        form = DuracaoForm()
+        # Se o método for GET, simplesmente renderize o formulário
+        form = SimulacaoForm()
+    
     return render(request, 'simulacao.html', {'form': form})
 
 def equipe_view(request):

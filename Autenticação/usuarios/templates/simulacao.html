@@ -1,26 +1,77 @@
-<!-- No seu monte_carlo.html -->
+<!-- simulacao.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulação de Monte Carlo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Estilos adicionais podem ser colocados aqui */
+        body {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        .navbar {
+            background-color: #25347B;
+        }
+        .navbar-brand, .nav-link {
+            color: #ffffff !important;
+        }
+        .container {
+            max-width: 1200px; /* Aumentei a largura máxima do container para melhorar o layout */
+            margin-top: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        .plot-container {
+            text-align: center;
+        }
+        img.plot {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
-    <h2>Simulação de Monte Carlo para Duração</h2>
-    
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Executar Simulação</button>
-    </form>
-    
-    {% if plot_url %}
-    <div>
-        <h3>Resultado da Simulação</h3>
-        <img src="{{ plot_url }}" alt="Gráfico da simulação">
-        <br><br>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Página Inicial</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <!-- Adicione mais itens de menu conforme necessário -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Conteúdo principal -->
+    <div class="container">
+        <h2 class="text-center my-4">Simulação de Monte Carlo</h2>
         
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Executar Simulação</button>
+        </form>
+        
+        {% if plot_url %}
+        <div class="plot-container">
+            <h3 class="text-center mt-4">Resultado da Simulação</h3>
+            <img src="{{ plot_url }}" class="plot img-fluid" alt="Gráfico da simulação">
+        </div>
+        {% endif %}
     </div>
-    {% endif %}
-    
+
+    <!-- Scripts do Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>
