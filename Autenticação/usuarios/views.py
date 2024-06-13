@@ -10,6 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
+from .forms import DuracaoForm
 
 def cadastro (request):
     if request.method == "GET":
@@ -61,10 +62,40 @@ def logout_view(request):
     return redirect('login') 
 
 def simulacao_view(request):
-    if request.user.is_authenticated:
-        return render (request, "simulacao.html")
+    if request.method == 'POST':
+        form = DuracaoForm(request.POST)
+        if form.is_valid():
+            duracao_desejada = form.cleaned_data['duracao']
+            
+            # Simulação de Monte Carlo
+            sims = 10000000
+            A = np.random.uniform(1, 5, sims)
+            B = np.random.uniform(2, 6, sims)
+            duracao = A + B
+            
+            # Criando o histograma
+            plt.figure(figsize=(11, 5.5))
+            plt.hist(duracao, density=True, bins=50)
+            plt.axvline(duracao_desejada, color='r', linestyle='dashed', linewidth=1)
+            plt.xlabel('Duração')
+            plt.ylabel('Densidade')
+            plt.title('Simulação de Monte Carlo para Duração')
+            plt.grid(True)
+            
+            # Convertendo o gráfico para imagem base64 para ser exibido no template
+            buffer = BytesIO()
+            plt.savefig(buffer, format='png')
+            buffer.seek(0)
+            image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+            plot_url = 'data:image/png;base64,' + image_base64
+            
+            # Limpar a figura para evitar sobrecarga de memória
+            plt.clf()
+
+            return render(request, 'simulacao.html', {'form': form, 'plot_url': plot_url})
     else:
-        return HttpResponse("Você deve estar registrado...")
+        form = DuracaoForm()
+    return render(request, 'simulacao.html', {'form': form})
 
 def equipe_view(request):
     equipe_members = [
