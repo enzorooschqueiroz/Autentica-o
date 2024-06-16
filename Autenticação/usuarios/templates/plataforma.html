@@ -9,8 +9,9 @@
     <title>Home Page</title>
     <style>
         body {
-            background-color: #ffffff;
-            color: #000000;
+            background-color: #f4f6f9;
+            color: #333;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
         }
         .navbar {
             background-color: #25347B;
@@ -18,28 +19,35 @@
         .navbar-brand, .nav-link {
             color: #ffffff !important;
         }
-        .content-section {
-            padding: 20px;
-            color: #000000;
+        .navbar-brand:hover, .nav-link:hover {
+            color: #ffcc00 !important;
         }
-        .border-right {
-            border-right: 1px solid #25347B;
+        .content-section {
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
         }
         h2, h3 {
             color: #25347B;
         }
-        .row-image {
-            display: flex;
-            align-items: center;
+        .hero {
+            background-color: #25347B;
+            color: #ffffff;
+            padding: 40px 20px;
+            text-align: center;
         }
-        .row-image img {
-            max-width: 100%;
-            height: auto;
+        .hero h1 {
+            margin: 0;
+            font-size: 2.5rem;
         }
     </style>
 </head>
 <body>
-    <h1 class="text-center my-4" style="color: #25347B;">Sistema de Monte-Carlo</h1>
+    <div class="hero">
+        <h1>Sistema de Monte-Carlo</h1>
+    </div>
 
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
@@ -48,20 +56,14 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <a class="navbar-brand" href="{% url 'equipe' %}">Equipe</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
             <a class="navbar-brand" href="{% url 'simulacao' %}">Simulador</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                <ul class="navbar-nav mb-2 mb-lg-0">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Sua conta
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                         </ul>
                     </li>
@@ -69,30 +71,42 @@
             </div>
         </div>
     </nav>
+    
 
     <div class="container mt-4">
-        <div class="row row-image mb-4">
-            <div class="col-md-6 content-section border-right">
+        <div class="row mb-4">
+            <div class="col-md-12 content-section">
                 <h2>Introdução à Simulação de Monte-Carlo</h2>
                 <p>
-                    A simulação de Monte-Carlo é uma técnica matemática que permite aos usuários entenderem o impacto do risco e da incerteza em modelos e sistemas de previsão. Ela é utilizada para modelar a probabilidade de diferentes resultados em um processo que não pode ser facilmente previsto devido à interferência de variáveis aleatórias.
+                    A simulação de Monte-Carlo é uma técnica matemática utilizada para entender o impacto do risco e da incerteza em modelos e sistemas de previsão. Ela foi desenvolvida durante a Segunda Guerra Mundial e desde então tem sido amplamente aplicada em diversas áreas. O nome "Monte-Carlo" foi inspirado no famoso cassino de Mônaco, refletindo a essência dos jogos de azar onde o resultado depende de eventos aleatórios.
                 </p>
                 <p>
-                    Esta técnica é amplamente usada em diversas áreas como finanças, gerenciamento de projetos, produção, engenharia e pesquisa científica. No mundo real, a simulação de Monte-Carlo pode ajudar empresas a tomar decisões informadas ao prever possíveis resultados de decisões estratégicas, considerando a variabilidade e a incerteza inerentes aos seus negócios.
+                    A essência da simulação de Monte-Carlo é a geração de amostras aleatórias de variáveis de entrada para um modelo, a fim de prever a distribuição provável de resultados de saída. Essas amostras permitem a modelagem da probabilidade de diferentes resultados em um processo onde a interferência de variáveis aleatórias torna a previsão exata impossível.
                 </p>
-            </div>
-            <div class="col-md-6">
-                <img src="https://via.placeholder.com/400x300" alt="Introdução à Simulação de Monte-Carlo">
             </div>
         </div>
-        <div class="row row-image">
-            <div class="col-md-6">
-                <img src="/media/montecarlo2.jpg" alt="Aplicações na Vida Real">
+        <div class="row mb-4">
+            <div class="col-md-12 content-section">
+                <h3>Como Funciona a Simulação de Monte-Carlo?</h3>
+                <p>
+                    A simulação de Monte-Carlo envolve quatro etapas principais:
+                </p>
+                <ol>
+                    <li><strong>Definição do Modelo:</strong> Estabelecer um modelo matemático que represente o sistema ou processo a ser analisado.</li>
+                    <li><strong>Identificação das Variáveis:</strong> Identificar as variáveis de entrada do modelo que são incertas e precisam ser representadas por distribuições de probabilidade.</li>
+                    <li><strong>Geração de Amostras:</strong> Usar um gerador de números aleatórios para criar amostras das distribuições de probabilidade das variáveis de entrada.</li>
+                    <li><strong>Execução da Simulação:</strong> Rodar o modelo várias vezes (geralmente milhares ou milhões de vezes), cada vez usando uma combinação diferente de amostras de entrada, para gerar uma distribuição dos resultados possíveis.</li>
+                </ol>
+                <p>
+                    O resultado é um panorama detalhado das possíveis saídas e suas probabilidades, permitindo uma análise de risco mais profunda e a tomada de decisões mais informadas.
+                </p>
             </div>
-            <div class="col-md-6 content-section">
+        </div>
+        <div class="row mb-4">
+            <div class="col-md-12 content-section">
                 <h3>Aplicações na Vida Real</h3>
                 <p>
-                    Aqui estão algumas das maneiras pelas quais a simulação de Monte-Carlo é utilizada na vida real:
+                    A simulação de Monte-Carlo é utilizada em várias áreas, incluindo:
                 </p>
                 <ul>
                     <li><strong>Finanças:</strong> Para avaliar o risco de portfólios de investimento, precificação de opções e análise de crédito.</li>
@@ -103,6 +117,31 @@
                 </ul>
                 <p>
                     A flexibilidade e a robustez da simulação de Monte-Carlo a tornam uma ferramenta indispensável para qualquer área que precise lidar com incertezas e variabilidades. Com o avanço da tecnologia computacional, essas simulações se tornaram ainda mais acessíveis e precisas, proporcionando insights valiosos e apoiando a tomada de decisões estratégicas.
+                </p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-md-12 content-section">
+                <h3>Vantagens e Desvantagens</h3>
+                <p>
+                    <strong>Vantagens:</strong>
+                </p>
+                <ul>
+                    <li>Permite a análise de problemas complexos com muitas variáveis incertas.</li>
+                    <li>Fornece uma distribuição completa dos resultados possíveis, não apenas uma estimativa única.</li>
+                    <li>Pode ser aplicado a uma ampla gama de áreas e problemas.</li>
+                    <li>Auxilia na identificação de riscos e oportunidades, melhorando a tomada de decisão.</li>
+                </ul>
+                <p>
+                    <strong>Desvantagens:</strong>
+                </p>
+                <ul>
+                    <li>Requer poder computacional significativo para simular um grande número de cenários.</li>
+                    <li>A qualidade dos resultados depende da precisão dos modelos e das distribuições de probabilidade utilizadas.</li>
+                    <li>Pode ser complexo de implementar e interpretar corretamente sem o conhecimento adequado.</li>
+                </ul>
+                <p>
+                    Em suma, a simulação de Monte-Carlo é uma ferramenta poderosa para lidar com incertezas e variabilidades em diversos contextos. No entanto, deve ser utilizada com cautela e compreensão das suas limitações para garantir resultados válidos e úteis.
                 </p>
             </div>
         </div>
